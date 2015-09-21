@@ -4,7 +4,7 @@ project( antfarm )
 
 find_package( Qt5 COMPONENTS Widgets REQUIRED )
 
-set( cpp_sources main.cpp )
+set( cpp_sources main.cpp afmainwindow.cpp afview.cpp afscene.cpp )
 
 add_executable( antfarm ${cpp_sources} )
 
