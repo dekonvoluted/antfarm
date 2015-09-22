@@ -4,6 +4,7 @@
 #include <QMainWindow>
 
 class AntFarmView;
+class AntFarmScene;
 
 class AntFarmMainWindow : public QMainWindow
 {
@@ -12,6 +13,7 @@ class AntFarmMainWindow : public QMainWindow
 
     private:
     AntFarmView* view;
+    AntFarmScene* scene;
 };
 
 #endif
