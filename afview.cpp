@@ -1,5 +1,7 @@
+#include <QLine>
 #include <QtMath>
 #include <QWheelEvent>
+#include <QVector>
 
 #include "afview.h"
 #include "afscene.h"
@@ -11,21 +13,26 @@ void AntFarmView::drawForeground( QPainter* painter, const QRectF& rectangle )
 {
     painter->setPen( Qt::yellow );
 
-    const auto numSteps = 10;
+    const auto numSteps = 100;
 
     auto step = sceneRect().right() - sceneRect().left();
     step /= numSteps;
 
+    auto lines = QVector<QLine>();
+    lines.reserve( numSteps * numSteps );
+
     for ( auto x = sceneRect().left(); x < sceneRect().right(); x += step ) {
-        painter->drawLine( x, sceneRect().top(), x, sceneRect().bottom() );
+        lines << QLine( x, sceneRect().top(), x, sceneRect().bottom() );
     }
 
     step = sceneRect().bottom() - sceneRect().top();
     step /= numSteps;
 
     for ( auto y = sceneRect().top(); y < sceneRect().bottom(); y += step ) {
-        painter->drawLine( sceneRect().left(), y, sceneRect().right(), y );
+        lines << QLine( sceneRect().left(), y, sceneRect().right(), y );
     }
+
+    painter->drawLines( lines );
 
     QGraphicsView::drawForeground( painter, rectangle );
 }
