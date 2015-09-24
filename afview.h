@@ -11,7 +11,7 @@ class AntFarmView : public QGraphicsView
     AntFarmView( AntFarmScene* = 0, QWidget* = 0 );
 
     protected:
-    void paintEvent( QPaintEvent* );
+    void drawForeground( QPainter*, const QRectF& );
     void wheelEvent( QWheelEvent* );
 
     private:
