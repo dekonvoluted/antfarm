@@ -7,7 +7,9 @@
 #include "afscene.h"
 
 AntFarmView::AntFarmView( AntFarmScene* afscene, QWidget* parent ) : QGraphicsView( afscene, parent ), scene( afscene )
-{}
+{
+    this->setRenderHints( QPainter::Antialiasing );
+}
 
 void AntFarmView::drawForeground( QPainter* painter, const QRectF& rectangle )
 {
