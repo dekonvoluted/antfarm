@@ -20,21 +20,18 @@ void AntFarmView::drawForeground( QPainter* painter, const QRectF& rectangle )
     auto lines = QVector<QLine>();
     lines.reserve( numSteps * numSteps );
 
-    const auto topLeft = this->mapToScene( rect().topLeft() );
-    const auto bottomRight = this->mapToScene( rect().bottomRight() );
-
-    auto step = bottomRight.x() - topLeft.x();
+    auto step = 1200;
     step /= numSteps;
 
-    for ( auto x = topLeft.x(); x < bottomRight.x(); x+= step ) {
-        lines << QLine( x, topLeft.y(), x, bottomRight.y() );
+    for ( auto x = -300; x < 900; x+= step ) {
+        lines << QLine( x, -300, x, 900 );
     }
 
-    step = bottomRight.y() - topLeft.y();
+    step = 1200;
     step /= numSteps;
 
-    for ( auto y = topLeft.y(); y < bottomRight.y(); y += step ) {
-        lines << QLine( topLeft.x(), y, bottomRight.x(), y );
+    for ( auto y = -300; y < 900; y += step ) {
+        lines << QLine( -300, y, 900, y );
     }
 
     painter->drawLines( lines );
