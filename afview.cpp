@@ -45,7 +45,9 @@ void AntFarmView::wheelEvent( QWheelEvent* event )
     degrees /= 8;
     degrees /= 15;
 
+    this->rotate( degrees.y() );
     this->scale( qPow( 1.1, degrees.y() ), qPow( 1.1, degrees.y() ) );
+
     QGraphicsView::wheelEvent( event );
 }
 
