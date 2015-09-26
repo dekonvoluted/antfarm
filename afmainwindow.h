@@ -8,6 +8,8 @@ class AntFarmScene;
 
 class AntFarmMainWindow : public QMainWindow
 {
+    Q_OBJECT
+
     public:
     AntFarmMainWindow( QWidget* = 0 );
 
