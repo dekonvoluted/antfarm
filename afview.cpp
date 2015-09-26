@@ -9,6 +9,10 @@
 AntFarmView::AntFarmView( AntFarmScene* afscene, QWidget* parent ) : QGraphicsView( afscene, parent ), scene( afscene )
 {
     this->setRenderHints( QPainter::Antialiasing );
+
+    // Disable scrollbars
+    this->setHorizontalScrollBarPolicy( Qt::ScrollBarAlwaysOff );
+    this->setVerticalScrollBarPolicy( Qt::ScrollBarAlwaysOff );
 }
 
 void AntFarmView::drawForeground( QPainter* painter, const QRectF& rectangle )
@@ -49,5 +53,6 @@ void AntFarmView::wheelEvent( QWheelEvent* event )
     this->scale( qPow( 1.1, degrees.y() ), qPow( 1.1, degrees.y() ) );
 
     QGraphicsView::wheelEvent( event );
+    this->centerOn( 300, 300 );
 }
 
