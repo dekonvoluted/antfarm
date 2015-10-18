@@ -4,6 +4,8 @@ project( antfarm )
 
 find_package( Qt5 COMPONENTS Widgets REQUIRED )
 
+set( CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11" )
+
 set( cpp_sources main.cpp afmainwindow.cpp afview.cpp afscene.cpp )
 
 add_executable( antfarm ${cpp_sources} )
