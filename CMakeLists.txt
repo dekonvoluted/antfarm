@@ -1,14 +1,22 @@
-cmake_minimum_required( VERSION 3.3 )
+cmake_minimum_required(VERSION 3.30)
 
-project( antfarm )
+project(antfarm)
 
-find_package( Qt5 COMPONENTS Widgets REQUIRED )
+find_package(Qt6 COMPONENTS Widgets REQUIRED)
 
-set( CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11" )
+set(CMAKE_AUTOMOC ON)
+set(CMAKE_AUTOUIC ON)
+set(CMAKE_AUTORCC ON)
 
-set( cpp_sources main.cpp afmainwindow.cpp afview.cpp afscene.cpp )
+add_executable(antfarm)
 
-add_executable( antfarm ${cpp_sources} )
+target_sources(antfarm PRIVATE src/main.cpp)
+target_sources(antfarm PRIVATE src/afmainwindow.cpp)
+target_sources(antfarm PRIVATE src/afview.cpp)
+target_sources(antfarm PRIVATE src/afscene.cpp)
 
-target_link_libraries( antfarm Qt5::Widgets )
+target_include_directories(antfarm PUBLIC include)
 
+target_link_libraries(antfarm Qt6::Widgets)
+
+install(TARGETS antfarm)
