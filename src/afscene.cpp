@@ -1,7 +1,7 @@
 #include <QPainter>
 #include <QPixmap>
 
-#include "afscene.h"
+#include "afscene.hpp"
 
 AntFarmScene::AntFarmScene(QObject* parent)
     : QGraphicsScene(parent)

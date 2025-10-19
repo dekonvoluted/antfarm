@@ -1,5 +1,5 @@
-#include "afview.h"
-#include "afscene.h"
+#include "afview.hpp"
+#include "afscene.hpp"
 
 AntFarmView::AntFarmView(AntFarmScene* afscene, QWidget* parent)
     : QGraphicsView(afscene, parent)

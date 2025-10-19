@@ -1,6 +1,6 @@
 #include <QApplication>
 
-#include "afmainwindow.h"
+#include "afmainwindow.hpp"
 
 int main(int argc, char** argv)
 {

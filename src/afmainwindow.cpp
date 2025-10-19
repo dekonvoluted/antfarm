@@ -1,6 +1,6 @@
-#include "afmainwindow.h"
-#include "afscene.h"
-#include "afview.h"
+#include "afmainwindow.hpp"
+#include "afscene.hpp"
+#include "afview.hpp"
 
 AntFarmMainWindow::AntFarmMainWindow(QWidget* parent)
     : QMainWindow(parent)
