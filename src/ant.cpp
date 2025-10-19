@@ -1,43 +1,92 @@
+#include <stdexcept>
+
 #include "ant.hpp"
+#include "grid.hpp"
 
-Ant::Ant(const Grid& grid, Location location, Heading heading) : m_grid(grid), m_location(location), m_heading(heading)
+Ant::Ant(Grid& grid, Location location, Heading heading) : m_grid(grid)
 {
+    move(location);
+    face(heading);
 }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-Ant& Ant::move(int step)
+Location Ant::location() const
 {
-    grid.move(*this);
+    return m_location;
 }
 
-Ant& Ant::turn(int step)
+Heading Ant::heading() const
 {
-    const auto modulus = grid.directions();
+    return m_heading;
+}
 
-    // Rotate by given step
-    // Ensure heading is non-negative
-    // Ensure heading is modulo directions
-    m_heading += step;
-    while (m_heading < 0) {
-        m_heading += modulus;
+Ant& Ant::advance(int steps)
+{
+    move(m_grid.next(m_location, m_heading, steps));
+
+    // Adjust heading, if needed
+    auto count = 1;
+    while (not m_grid.valid(m_heading + count, m_location)) {
+        ++count;
     }
-    m_heading %= modulus;
+    turn(count);
+
+    return *this;
+};
+
+Ant& Ant::turn(int steps)
+{
+    face(m_heading + steps);
 
     return *this;
 }
+
+Ant& Ant::update()
+{
+    // Rules for this automaton
+    // Toggle color, turn, advance
+    const auto color = m_grid.color(m_location);
+    if (color == 0) {
+        m_grid.toggle(m_location);
+        turn(-1);
+    } else if (color == 1) {
+        m_grid.toggle(m_location);
+        turn(1);
+    }
+
+    advance(1);
+
+    return *this;
+}
+
+Ant& Ant::move(Location location)
+{
+    // Verify that the location is valid for this grid
+    if (not m_grid.valid(location)) {
+        throw std::runtime_error("Unable to move ant to invalid location");
+    }
+
+    m_location = location;
+
+    return *this;
+}
+
+Ant& Ant::face(Heading heading)
+{
+    // Ensure heading is non-negative
+    // Ensure heading is modulo grid directions
+    const auto modulus = m_grid.directions();
+    while(heading < 0) {
+        heading += modulus;
+    }
+    heading %= modulus;
+
+    // Verify that the heading is valid for this grid
+    if (not m_grid.valid(heading, location())) {
+        throw std::runtime_error("Unable to face ant to invalid heading");
+    }
+
+    m_heading = heading;
+
+    return *this;
+}
+

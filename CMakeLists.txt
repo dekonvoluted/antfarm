@@ -14,6 +14,9 @@ target_sources(
     antfarm
     PRIVATE
         src/main.cpp
+        src/ant.cpp
+        src/grid.cpp
+        src/tiling.cpp
         src/afmainwindow.cpp
         src/afview.cpp
         src/afscene.cpp
