@@ -86,7 +86,6 @@ def cmake(context, D=None, checks=None, echo=False, force=False, tidy=False):
         tidy_command = (
             "clang-tidy",
             "--header-filter=.*",
-            f"--extra-arg=--gcc-toolchain={gcc_toolchain}",
             ",".join(tidy_checks),
         )
         cache["CMAKE_CXX_CLANG_TIDY"] = f'"{";".join(tidy_command)}"'
