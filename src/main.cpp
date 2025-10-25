@@ -1,13 +1,13 @@
 #include <QApplication>
 
-#include "afmainwindow.hpp"
+#include "window.hpp"
 
 int main(int argc, char** argv)
 {
     QApplication app(argc, argv);
 
-    AntFarmMainWindow* mainWindow = new AntFarmMainWindow();
-    mainWindow->show();
+    Window* window = new Window();
+    window->show();
 
     return app.exec();
 }

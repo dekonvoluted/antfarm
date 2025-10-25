@@ -13,13 +13,13 @@ add_executable(antfarm)
 target_sources(
     antfarm
     PRIVATE
-        src/afmainwindow.cpp
-        src/afscene.cpp
-        src/afview.cpp
         src/ant.cpp
         src/grid.cpp
         src/main.cpp
+        src/scene.cpp
         src/tiling.cpp
+        src/view.cpp
+        src/window.cpp
 )
 
 target_include_directories(
