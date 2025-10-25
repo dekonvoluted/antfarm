@@ -2,21 +2,21 @@
 
 #include "tiling.hpp"
 
-template<>
+template <>
 constexpr int directions<Tiling::SQUARE>()
 {
     // Square grids have four directions, and all are allowed at any time
     return 4;
 }
 
-template<>
+template <>
 bool valid<Tiling::TRIANGLE>(Location location)
 {
     const auto [p, q, r] = location;
     return r == 0 or r == 1;
 }
 
-template<>
+template <>
 bool valid<Tiling::SQUARE>(Location location)
 {
     // Square grids disregard the third coordinate
@@ -24,7 +24,7 @@ bool valid<Tiling::SQUARE>(Location location)
     return r == 0;
 }
 
-template<>
+template <>
 bool valid<Tiling::HEXAGON>(Location location)
 {
     // Hexagon grids need to preserve an invariant
@@ -41,7 +41,7 @@ bool valid(Heading heading, Location location)
     return (heading % 2) == r;
 }
 
-template<>
+template <>
 Location next<Tiling::TRIANGLE>(Location location, Heading heading, int step)
 {
     auto& [p, q, r] = location;
@@ -57,83 +57,82 @@ Location next<Tiling::TRIANGLE>(Location location, Heading heading, int step)
     }
 
     switch (heading) {
-        case 0:
-            break;
-        case 1:
-            p += step;
-            break;
-        case 2:
-            q += step;
-            break;
-        case 3:
-            break;
-        case 4:
-            p -= step;
-            break;
-        case 5:
-            q -= step;
-            break;
+    case 0:
+        break;
+    case 1:
+        p += step;
+        break;
+    case 2:
+        q += step;
+        break;
+    case 3:
+        break;
+    case 4:
+        p -= step;
+        break;
+    case 5:
+        q -= step;
+        break;
     }
 
     // NOTE - Heading may no longer be valid at new location
     return location;
 }
 
-template<>
+template <>
 Location next<Tiling::SQUARE>(Location location, Heading heading, int step)
 {
     auto& [p, q, r] = location;
 
     switch (heading) {
-        case 0:
-            p += step;
-            break;
-        case 1:
-            q += step;
-            break;
-        case 2:
-            p -= step;
-            break;
-        case 3:
-            q -= step;
-            break;
+    case 0:
+        p += step;
+        break;
+    case 1:
+        q += step;
+        break;
+    case 2:
+        p -= step;
+        break;
+    case 3:
+        q -= step;
+        break;
     }
 
     return location;
 }
 
-template<>
+template <>
 Location next<Tiling::HEXAGON>(Location location, Heading heading, int step)
 {
     auto& [p, q, r] = location;
 
     switch (heading) {
-        case 0:
-            p += step;
-            r -= step;
-            break;
-        case 1:
-            p += step;
-            q -= step;
-            break;
-        case 2:
-            q -= step;
-            r += step;
-            break;
-        case 3:
-            p -= step;
-            r += step;
-            break;
-        case 4:
-            p -= step;
-            q += step;
-            break;
-        case 5:
-            q += step;
-            r -= step;
-            break;
+    case 0:
+        p += step;
+        r -= step;
+        break;
+    case 1:
+        p += step;
+        q -= step;
+        break;
+    case 2:
+        q -= step;
+        r += step;
+        break;
+    case 3:
+        p -= step;
+        r += step;
+        break;
+    case 4:
+        p -= step;
+        q += step;
+        break;
+    case 5:
+        q += step;
+        r -= step;
+        break;
     }
 
     return location;
 }
-

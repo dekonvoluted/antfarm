@@ -5,7 +5,10 @@
 // Triangles have six directions, but only three are permitted at a time
 // Squares have four directions, and all are permitted at any time
 // Hexagons have six directions, and all are permitted at any time
-Grid::Grid(const Tiling tiling, int colors) : m_tiling(tiling), m_colors(colors), m_tiles(colors)
+Grid::Grid(const Tiling tiling, int colors)
+    : m_tiling(tiling)
+    , m_colors(colors)
+    , m_tiles(colors)
 {
     // Cannot have fewer than two colors
     if (m_colors < 2) {
@@ -16,14 +19,14 @@ Grid::Grid(const Tiling tiling, int colors) : m_tiling(tiling), m_colors(colors)
 int Grid::directions() const
 {
     switch (m_tiling) {
-        case Tiling::TRIANGLE:
-            return ::directions<Tiling::TRIANGLE>();
-        case Tiling::SQUARE:
-            return ::directions<Tiling::SQUARE>();
-        case Tiling::HEXAGON:
-            return ::directions<Tiling::HEXAGON>();
-        default:
-            __builtin_unreachable();
+    case Tiling::TRIANGLE:
+        return ::directions<Tiling::TRIANGLE>();
+    case Tiling::SQUARE:
+        return ::directions<Tiling::SQUARE>();
+    case Tiling::HEXAGON:
+        return ::directions<Tiling::HEXAGON>();
+    default:
+        __builtin_unreachable();
     }
 }
 
@@ -47,45 +50,46 @@ int Grid::color(Location location) const
 bool Grid::valid(Location location) const
 {
     switch (m_tiling) {
-        case Tiling::TRIANGLE:
-            return ::valid<Tiling::TRIANGLE>(location);
-        case Tiling::SQUARE:
-            return ::valid<Tiling::SQUARE>(location);
-        case Tiling::HEXAGON:
-            return ::valid<Tiling::HEXAGON>(location);
-        default:
-            __builtin_unreachable();
+    case Tiling::TRIANGLE:
+        return ::valid<Tiling::TRIANGLE>(location);
+    case Tiling::SQUARE:
+        return ::valid<Tiling::SQUARE>(location);
+    case Tiling::HEXAGON:
+        return ::valid<Tiling::HEXAGON>(location);
+    default:
+        __builtin_unreachable();
     }
 }
 
 bool Grid::valid(Heading heading, Location location) const
 {
     switch (m_tiling) {
-        case Tiling::TRIANGLE:
-            return ::valid(heading, location);
-        case Tiling::SQUARE:
-        case Tiling::HEXAGON:
-            return true;
-        default:
-            __builtin_unreachable();
+    case Tiling::TRIANGLE:
+        return ::valid(heading, location);
+    case Tiling::SQUARE:
+    case Tiling::HEXAGON:
+        return true;
+    default:
+        __builtin_unreachable();
     }
 }
 
 Location Grid::next(Location location, Heading heading, int steps) const
 {
     switch (m_tiling) {
-        case Tiling::TRIANGLE:
-            return ::next<Tiling::TRIANGLE>(location, heading, steps);
-        case Tiling::SQUARE:
-            return ::next<Tiling::SQUARE>(location, heading, steps);
-        case Tiling::HEXAGON:
-            return ::next<Tiling::HEXAGON>(location, heading, steps);
-        default:
-            __builtin_unreachable();
+    case Tiling::TRIANGLE:
+        return ::next<Tiling::TRIANGLE>(location, heading, steps);
+    case Tiling::SQUARE:
+        return ::next<Tiling::SQUARE>(location, heading, steps);
+    case Tiling::HEXAGON:
+        return ::next<Tiling::HEXAGON>(location, heading, steps);
+    default:
+        __builtin_unreachable();
     }
 }
 
-Grid& Grid::toggle(Location location) {
+Grid& Grid::toggle(Location location)
+{
     // Remove location from known colors
     auto _color = color(location);
     m_tiles[_color].erase(location);
@@ -100,7 +104,8 @@ Grid& Grid::toggle(Location location) {
     return *this;
 }
 
-Grid& Grid::ant(Location location, Heading heading) {
+Grid& Grid::ant(Location location, Heading heading)
+{
     m_ants.emplace_back(Ant(*this, location, heading));
     return *this;
 }
@@ -129,4 +134,3 @@ Grid& Grid::reorient(Ant& ant, Heading heading)
 
     return *this;
 }
-

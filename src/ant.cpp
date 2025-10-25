@@ -3,7 +3,8 @@
 #include "ant.hpp"
 #include "grid.hpp"
 
-Ant::Ant(Grid& grid, Location location, Heading heading) : m_grid(grid)
+Ant::Ant(Grid& grid, Location location, Heading heading)
+    : m_grid(grid)
 {
     move(location);
     face(heading);
@@ -75,7 +76,7 @@ Ant& Ant::face(Heading heading)
     // Ensure heading is non-negative
     // Ensure heading is modulo grid directions
     const auto modulus = m_grid.directions();
-    while(heading < 0) {
+    while (heading < 0) {
         heading += modulus;
     }
     heading %= modulus;
@@ -89,4 +90,3 @@ Ant& Ant::face(Heading heading)
 
     return *this;
 }
-

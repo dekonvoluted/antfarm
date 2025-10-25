@@ -7,8 +7,7 @@
 #include "ant.hpp"
 #include "tiling.hpp"
 
-class Grid
-{
+class Grid {
 public:
     // Create grid with tiling type and number of colors
     Grid(const Tiling, int = 2);
@@ -35,6 +34,7 @@ public:
 
     // Update grid and ants
     Grid& update();
+
 private:
     // Relocate and reorient an ant
     Grid& relocate(Ant&, Location);
@@ -45,4 +45,3 @@ private:
     std::vector<std::unordered_set<Location, LocationHash>> m_tiles;
     std::vector<Ant> m_ants {};
 };
-

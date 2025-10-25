@@ -7,14 +7,14 @@ import subprocess
     iterable=["D", "check"],
     help={
         "D": "Pass cache variables to cmake (use None to unset)",
-        "checks": "Enable/disable clang-tidy checks (implies tidy)",
+        "checks": "Enable/disable these clang-tidy checks (implies tidy)",
         "echo": "Echo the CMake command before executing",
         "force": "Use a fresh CMake cache",
-        "tidy": "Use clang-tidy to analyze code",
+        "tidy": "Set up clang-tidy to analyze code during make",
     },
 )
 def cmake(context, D=None, checks=None, echo=False, force=False, tidy=False):
-    """Generate make files to build the project"""
+    """Generate make files to build the project."""
     # Internal defaults
     command = [
         "cmake",
@@ -98,9 +98,17 @@ def cmake(context, D=None, checks=None, echo=False, force=False, tidy=False):
     context.run(" ".join(command), echo=echo, pty=True)
 
 
-@task
+@task(
+    iterable=["targets"],
+    help={
+        "echo": "Echo the cmake command before executing",
+        "jobs": "Launch these many parallel jobs",
+        "targets": "Build these targets",
+        "verbose": "Echo make commands before executing (implies echo)",
+    },
+)
 def make(context, echo=False, jobs=None, targets=None, verbose=False):
-    """Build the project"""
+    """Build the project."""
     command = ["cmake", "--build", "./build/"]
 
     if not targets:
@@ -108,9 +116,40 @@ def make(context, echo=False, jobs=None, targets=None, verbose=False):
     command.extend(["--target", *targets])
 
     if jobs:
-        command.extend(["--jobs", jobs])
+        command.extend(["--parallel", jobs])
 
     if verbose:
+        echo = True
         command.append("--verbose")
 
     context.run(" ".join(command), echo=echo, pty=True)
+
+
+@task(
+    help={
+        "echo": "Echo the commands before executing",
+        "fix": "Fix the linting errors",
+    }
+)
+def check(context, echo=False, fix=False):
+    """Check and format the code."""
+    command = [
+        "clang-format",
+        "--style=WebKit",
+    ]
+
+    if fix:
+        command.append("-i")
+    else:
+        command.append("--dry-run")
+
+    for extension in (".h", ".hpp", ".cpp"):
+        command.extend(
+            list(map(lambda x: str(x), Path.cwd().glob(f"./**/*{extension}")))
+        )
+
+    context.run(" ".join(command), echo=echo, pty=True)
+    if fix:
+        context.run("ruff format ./", echo=echo, pty=True)
+    else:
+        context.run("ruff format --check ./", echo=echo, pty=True)

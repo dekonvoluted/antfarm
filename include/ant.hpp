@@ -5,8 +5,7 @@
 
 class Grid;
 
-class Ant
-{
+class Ant {
 public:
     Ant(Grid&, Location = {}, Heading = {});
 
@@ -31,4 +30,3 @@ private:
     Location m_location {};
     Heading m_heading {};
 };
-
