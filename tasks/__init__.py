@@ -1,5 +1,6 @@
 from invoke import task
 from pathlib import Path
+from shutil import rmtree
 import subprocess
 
 
@@ -153,3 +154,11 @@ def check(context, echo=False, fix=False):
         context.run("ruff format ./", echo=echo, pty=True)
     else:
         context.run("ruff format --check ./", echo=echo, pty=True)
+
+
+@task
+def clean(context):
+    """Clean up the project directory."""
+    rmtree("./.ruff_cache", ignore_errors=True)
+    rmtree("./build", ignore_errors=True)
+    rmtree("./install", ignore_errors=True)
