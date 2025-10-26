@@ -2,7 +2,7 @@
 
 #include <QWidget>
 
-class QGridLayout;
+class QBoxLayout;
 class QLabel;
 class QSlider;
 
@@ -16,8 +16,7 @@ public slots:
     void setOrientation(Qt::Orientation);
 
 private:
+    QLabel* m_label;
     QSlider* m_slider;
-    QLabel* m_slow;
-    QLabel* m_fast;
-    QGridLayout* m_layout;
+    QBoxLayout* m_layout;
 };

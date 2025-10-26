@@ -14,7 +14,7 @@ Window::Window(QWidget* parent)
     toolbar->addWidget(zoombar);
     connect(toolbar, SIGNAL(orientationChanged(Qt::Orientation)), zoombar, SLOT(setOrientation(Qt::Orientation)));
 
-    this->addToolBar(toolbar);
+    this->addToolBar(Qt::BottomToolBarArea, toolbar);
 
     m_scene = new Scene();
     m_view = new View(m_scene);
