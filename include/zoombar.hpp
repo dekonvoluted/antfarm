@@ -12,7 +12,11 @@ class ZoomBar : public QWidget {
 public:
     ZoomBar(QWidget* = nullptr);
 
+signals:
+    void valueChanged(int);
+
 public slots:
+    void setValue(int);
     void setOrientation(Qt::Orientation);
 
 private:
