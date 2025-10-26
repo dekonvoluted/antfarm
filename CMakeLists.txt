@@ -2,14 +2,18 @@ cmake_minimum_required(VERSION 4.1.2)
 
 project(antfarm)
 
-find_package(Qt6 COMPONENTS Widgets REQUIRED)
+find_package(Qt6 REQUIRED COMPONENTS Widgets)
 
 set(CMAKE_AUTOMOC ON)
 set(CMAKE_AUTOUIC ON)
 set(CMAKE_AUTORCC ON)
 
 add_executable(antfarm)
-
+target_include_directories(
+    antfarm
+    PUBLIC
+        include
+)
 target_sources(
     antfarm
     PRIVATE
@@ -23,15 +27,6 @@ target_sources(
         src/window.cpp
         src/zoombar.cpp
 )
-
-target_include_directories(
-    antfarm
-    PUBLIC
-        include
-)
-
-target_include_directories(antfarm PUBLIC include)
-
-target_link_libraries(antfarm PUBLIC Qt6::Widgets)
+target_link_libraries(antfarm PRIVATE Qt6::Widgets)
 
 install(TARGETS antfarm)

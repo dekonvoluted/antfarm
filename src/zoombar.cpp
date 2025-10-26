@@ -53,3 +53,5 @@ void ZoomBar::setOrientation(Qt::Orientation orientation)
     }
     m_layout->update();
 }
+
+#include "moc_zoombar.cpp"
