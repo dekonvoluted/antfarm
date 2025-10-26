@@ -1,12 +1,17 @@
 #pragma once
 
+#include <cstddef>
+#include <functional>
+#ifndef NDEBUG
+#include <iostream>
+#endif
 #include <tuple>
 
 using Location = std::tuple<int, int, int>;
 
 // Needed to put the tuple into an unordered set later
 struct LocationHash {
-    size_t operator()(const Location& location) const
+    std::size_t operator()(const Location& location) const
     {
         const auto [p, q, r] = location;
 
@@ -17,3 +22,7 @@ struct LocationHash {
         return phash ^ (qhash << 1) ^ (rhash << 2);
     }
 };
+
+#ifndef NDEBUG
+std::ostream& operator<<(std::ostream&, Location);
+#endif

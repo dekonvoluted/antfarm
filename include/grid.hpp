@@ -15,6 +15,7 @@ public:
     // Return number of directions and colors
     int directions() const;
     int colors() const;
+    std::vector<std::unordered_set<Location, LocationHash>> tiles();
 
     // Return color at a given location
     int color(Location) const;

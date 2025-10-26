@@ -35,6 +35,11 @@ int Grid::colors() const
     return m_colors;
 }
 
+std::vector<std::unordered_set<Location, LocationHash>> Grid::tiles()
+{
+    return m_tiles;
+}
+
 int Grid::color(Location location) const
 {
     auto _color = 0;
@@ -114,6 +119,9 @@ Grid& Grid::update()
 {
     for (auto& ant : m_ants) {
         ant.update();
+#ifndef NDEBUG
+        std::cout << ant.location() << '\n';
+#endif
     }
 
     return *this;

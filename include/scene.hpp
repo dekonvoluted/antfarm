@@ -2,6 +2,7 @@
 
 #include <QGraphicsScene>
 
+#include "grid.hpp"
 #include "tiling.hpp"
 
 class QPainter;
@@ -20,4 +21,6 @@ private:
     QPixmap m_default_tile;
     QPixmap m_current_tile;
     QPixmap m_toggled_tile;
+
+    Grid m_grid;
 };

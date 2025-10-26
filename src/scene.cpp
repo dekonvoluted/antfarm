@@ -10,6 +10,7 @@ Scene ::Scene(QObject* parent)
     , m_default_tile(unit, unit)
     , m_current_tile(unit, unit)
     , m_toggled_tile(unit, unit)
+    , m_grid(Tiling::SQUARE, 2)
 {
     // Select colors
     m_colors = { { 0, 0xffffff }, { 1, 0x000000 } };

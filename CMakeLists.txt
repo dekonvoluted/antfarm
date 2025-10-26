@@ -15,11 +15,13 @@ target_sources(
     PRIVATE
         src/ant.cpp
         src/grid.cpp
+        src/location.cpp
         src/main.cpp
         src/scene.cpp
         src/tiling.cpp
         src/view.cpp
         src/window.cpp
+        src/zoombar.cpp
 )
 
 target_include_directories(
