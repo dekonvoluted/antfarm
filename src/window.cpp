@@ -51,7 +51,7 @@ Window::Window(QWidget* parent)
     // connect(antButton, &QPushButton::clicked, [this](){m_scene->grid().add ant();});
     m_toolbar->addWidget(antButton);
 
-    auto* playButton = new QPushButton("Start/Pause");
+    auto* playButton = new QPushButton("Start");
     playButton->setCheckable(true);
     connect(playButton, &QPushButton::toggled, [playButton](bool toggled) {
         if (toggled) {
@@ -68,6 +68,12 @@ Window::Window(QWidget* parent)
         }
     });
     m_toolbar->addWidget(playButton);
+
+    auto* stepButton = new QPushButton("Step");
+    connect(playButton, &QPushButton::toggled, [stepButton](bool toggled) {
+            stepButton->setEnabled(not toggled);
+            });
+    m_toolbar->addWidget(stepButton);
 
     auto* spacer = new QWidget;
     spacer->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Preferred);
@@ -89,11 +95,14 @@ Window::Window(QWidget* parent)
     this->addToolBar(m_toolbar);
 
     auto* statusbar = this->statusBar();
-    auto* counter = new QLabel("Generations: 0");
-    connect(timer, &QTimer::timeout, [this, counter]() {
+    auto* counter = new QLabel("");
+    m_generations = 0;
+    auto increment = [this, counter]() {
         const auto generations = QString("Generations: %1").arg(++m_generations);
         counter->setText(generations);
-    });
+    };
+    connect(stepButton, &QPushButton::clicked, increment);
+    connect(timer, &QTimer::timeout, increment);
     statusbar->addPermanentWidget(counter);
     statusbar->showMessage("Ready");
 }
