@@ -11,7 +11,6 @@
 #include "scene.hpp"
 #include "view.hpp"
 #include "window.hpp"
-#include "zoombar.hpp"
 
 Window::Window(QWidget* parent)
     : QMainWindow(parent)
@@ -24,6 +23,7 @@ Window::Window(QWidget* parent)
 
     auto* timer = new QTimer(this);
     timer->setInterval(100);
+    connect(timer, &QTimer::timeout, this, &Window::update);
 
     m_toolbar = new QToolBar("Main");
 
@@ -48,7 +48,7 @@ Window::Window(QWidget* parent)
     m_toolbar->addWidget(resetButton);
 
     auto* antButton = new QPushButton("Add Ant");
-    // connect(antButton, &QPushButton::clicked, [this](){m_scene->grid().add ant();});
+    connect(antButton, &QPushButton::clicked, m_scene, &Scene::ant);
     m_toolbar->addWidget(antButton);
 
     auto* playButton = new QPushButton("Start");
@@ -73,6 +73,7 @@ Window::Window(QWidget* parent)
     connect(playButton, &QPushButton::toggled, [stepButton](bool toggled) {
             stepButton->setEnabled(not toggled);
             });
+    connect(stepButton, &QPushButton::clicked, this, &Window::update);
     m_toolbar->addWidget(stepButton);
 
     auto* spacer = new QWidget;
@@ -96,15 +97,17 @@ Window::Window(QWidget* parent)
 
     auto* statusbar = this->statusBar();
     auto* counter = new QLabel("");
-    m_generations = 0;
-    auto increment = [this, counter]() {
-        const auto generations = QString("Generations: %1").arg(++m_generations);
-        counter->setText(generations);
+    auto increment = [this, counter](int generations) {
+        counter->setText(QString("Generations: %1").arg(generations));
     };
-    connect(stepButton, &QPushButton::clicked, increment);
-    connect(timer, &QTimer::timeout, increment);
+    connect(m_scene, &Scene::stepped, increment);
     statusbar->addPermanentWidget(counter);
     statusbar->showMessage("Ready");
+}
+
+void Window::update()
+{
+    m_scene->step();
 }
 
 #include "moc_window.cpp"

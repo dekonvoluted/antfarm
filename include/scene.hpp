@@ -9,8 +9,17 @@ class QPainter;
 class QPixmap;
 
 class Scene : public QGraphicsScene {
+    Q_OBJECT
+
 public:
     Scene(QObject* = nullptr);
+
+signals:
+    void stepped(int);
+
+public slots:
+    void ant();
+    void step();
 
 protected:
     void drawBackground(QPainter*, const QRectF&);

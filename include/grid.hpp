@@ -15,7 +15,9 @@ public:
     // Return number of directions and colors
     int directions() const;
     int colors() const;
-    std::vector<std::unordered_set<Location, LocationHash>> tiles();
+    std::vector<std::unordered_set<Location, LocationHash>> tiles() const;
+    std::vector<Ant> ants() const;
+    int generations() const;
 
     // Return color at a given location
     int color(Location) const;
@@ -45,4 +47,6 @@ private:
     const int m_colors;
     std::vector<std::unordered_set<Location, LocationHash>> m_tiles;
     std::vector<Ant> m_ants {};
+
+    int m_generations {};
 };

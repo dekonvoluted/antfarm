@@ -14,11 +14,12 @@ class Window : public QMainWindow {
 public:
     Window(QWidget* = nullptr);
 
+public slots:
+    void update();
+
 private:
     QToolBar* m_toolbar;
 
     Scene* m_scene;
     View* m_view;
-
-    int m_generations;
 };

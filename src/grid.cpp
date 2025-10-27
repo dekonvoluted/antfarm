@@ -36,9 +36,19 @@ int Grid::colors() const
     return m_colors;
 }
 
-std::vector<std::unordered_set<Location, LocationHash>> Grid::tiles()
+std::vector<std::unordered_set<Location, LocationHash>> Grid::tiles() const
 {
     return m_tiles;
+}
+
+std::vector<Ant> Grid::ants() const
+{
+    return m_ants;
+}
+
+int Grid::generations() const
+{
+    return m_generations;
 }
 
 int Grid::color(Location location) const
@@ -119,7 +129,6 @@ Grid& Grid::ant(Location location, Heading heading)
     m_ants.emplace_back(Ant(*this, location, heading));
     return *this;
 }
-
 Grid& Grid::update()
 {
     for (auto& ant : m_ants) {
@@ -128,6 +137,8 @@ Grid& Grid::update()
         std::cout << ant.location() << '\n';
 #endif
     }
+
+    ++m_generations;
 
     return *this;
 }

@@ -25,7 +25,6 @@ target_sources(
         src/tiling.cpp
         src/view.cpp
         src/window.cpp
-        src/zoombar.cpp
 )
 target_link_libraries(antfarm PRIVATE Qt6::Widgets)
 
