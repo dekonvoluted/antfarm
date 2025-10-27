@@ -2,14 +2,23 @@
 
 #include <QMainWindow>
 
-class View;
+class QTimer;
+class QToolBar;
+
 class Scene;
+class View;
 
 class Window : public QMainWindow {
+    Q_OBJECT
+
 public:
     Window(QWidget* = nullptr);
 
 private:
-    View* m_view;
+    QToolBar* m_toolbar;
+
     Scene* m_scene;
+    View* m_view;
+
+    int m_generations;
 };

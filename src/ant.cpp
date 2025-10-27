@@ -25,11 +25,13 @@ Ant& Ant::advance(int steps)
     move(m_grid.next(m_location, m_heading, steps));
 
     // Adjust heading, if needed
-    auto count = 1;
+    auto count = 0;
     while (not m_grid.valid(m_heading + count, m_location)) {
         ++count;
     }
-    turn(count);
+    if (count) {
+        turn(count);
+    }
 
     return *this;
 };
@@ -45,12 +47,13 @@ Ant& Ant::update()
 {
     // Rules for this automaton
     // Toggle color, turn, advance
+    m_grid.toggle(m_location);
+
     const auto color = m_grid.color(m_location);
     if (color == 0) {
-        m_grid.toggle(m_location);
         turn(-1);
+
     } else if (color == 1) {
-        m_grid.toggle(m_location);
         turn(1);
     }
 

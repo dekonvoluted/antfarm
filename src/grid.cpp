@@ -22,7 +22,8 @@ int Grid::directions() const
     case Tiling::TRIANGLE:
         return ::directions<Tiling::TRIANGLE>();
     case Tiling::SQUARE:
-        return ::directions<Tiling::SQUARE>();
+        // Square grids have four directions, and all are allowed at any time
+        return 4;
     case Tiling::HEXAGON:
         return ::directions<Tiling::HEXAGON>();
     default:
@@ -49,7 +50,11 @@ int Grid::color(Location location) const
         }
         ++_color;
     }
-    return _color;
+    if (_color == m_colors) {
+        return 0;
+    } else {
+        return _color;
+    }
 }
 
 bool Grid::valid(Location location) const

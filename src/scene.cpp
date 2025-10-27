@@ -14,8 +14,10 @@ Scene ::Scene(QObject* parent)
 {
     // Select colors
     m_colors = { { 0, 0xffffff }, { 1, 0x000000 } };
-    // Create pixmaps
-    const auto gray = 0xf0f0d0;
+    const auto gray = 0xf0f0f0;
+    const auto red = 0xff0000;
+    const auto black = 0x000000;
+
     m_default_tile.fill();
     m_current_tile.fill();
     m_toggled_tile.fill();
@@ -24,8 +26,33 @@ Scene ::Scene(QObject* parent)
         QPainter painter(&m_default_tile);
         painter.setPen(Qt::NoPen);
         painter.setBrush(QColor(gray));
-        painter.drawRoundedRect(m_default_tile.rect().adjusted(1, 1, -1, -1), 2.0, 2.0);
+        painter.drawRect(m_default_tile.rect().adjusted(1, 1, -1, -1));
     }
+
+    {
+        QPainter painter(&m_current_tile);
+        painter.setPen(Qt::NoPen);
+        painter.setBrush(QColor(red));
+        painter.drawRect(m_current_tile.rect());
+    }
+
+    {
+        QPainter painter(&m_toggled_tile);
+        painter.setPen(Qt::NoPen);
+        painter.setBrush(QColor(black));
+        painter.drawRect(m_toggled_tile.rect().adjusted(1, 1, -1, -1));
+    }
+
+    // Create an ant and update for 100 steps
+    const auto epoch = 10000;
+    m_grid.ant();
+    for (auto count = 0; count < epoch; ++count) {
+        m_grid.update();
+    }
+    // m_grid.ant();
+    // for (auto count = 0; count < epoch; ++count) {
+    //     m_grid.update();
+    // }
 }
 
 void Scene::drawBackground(QPainter* painter, const QRectF& rect)
@@ -35,5 +62,10 @@ void Scene::drawBackground(QPainter* painter, const QRectF& rect)
 
 void Scene::drawForeground(QPainter* painter, const QRectF& rect)
 {
-    // Paint the toggled tiles
+    for (const auto& colored_tiles : m_grid.tiles()) {
+        for (const auto& location : colored_tiles) {
+            auto top_left = QPointF(std::get<0>(location) * unit, std::get<1>(location) * unit);
+            painter->drawPixmap(top_left, m_toggled_tile);
+        }
+    }
 }

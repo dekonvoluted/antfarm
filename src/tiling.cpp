@@ -3,13 +3,6 @@
 #include "tiling.hpp"
 
 template <>
-constexpr int directions<Tiling::SQUARE>()
-{
-    // Square grids have four directions, and all are allowed at any time
-    return 4;
-}
-
-template <>
 bool valid<Tiling::TRIANGLE>(Location location)
 {
     const auto [p, q, r] = location;
