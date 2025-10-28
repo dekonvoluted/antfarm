@@ -1,6 +1,9 @@
 #pragma once
 
+#include <map>
+
 #include <QGraphicsScene>
+#include <QPixmap>
 
 #include "grid.hpp"
 #include "tiling.hpp"
@@ -26,10 +29,8 @@ protected:
     void drawForeground(QPainter*, const QRectF&);
 
 private:
-    std::map<int, int> m_colors;
-    QPixmap m_default_tile;
-    QPixmap m_current_tile;
-    QPixmap m_toggled_tile;
+    std::map<int, QPixmap> m_tiles;
+    QPixmap m_ant;
 
     Grid m_grid;
 };

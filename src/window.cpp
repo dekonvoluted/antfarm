@@ -84,8 +84,8 @@ Window::Window(QWidget* parent)
     m_toolbar->addWidget(fpsLabel);
 
     auto* fpsWidget = new QSpinBox;
-    fpsWidget->setRange(5, 100);
-    fpsWidget->setSingleStep(5);
+    fpsWidget->setRange(10, 250);
+    fpsWidget->setSingleStep(10);
     fpsWidget->setValue(10);
     connect(fpsWidget, &QSpinBox::valueChanged, [timer](int value) {
         const auto interval = (1000.0 / value);

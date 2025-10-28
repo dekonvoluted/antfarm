@@ -7,41 +7,30 @@ const auto unit = 10;
 
 Scene ::Scene(QObject* parent)
     : QGraphicsScene(parent)
-    , m_default_tile(unit, unit)
-    , m_current_tile(unit, unit)
-    , m_toggled_tile(unit, unit)
     , m_grid(Tiling::SQUARE, 2)
 {
     // Select colors
-    m_colors = { { 0, 0xffffff }, { 1, 0x000000 } };
     const auto gray = 0xf0f0f0;
     const auto red = 0xff0000;
+    const auto green = 0x00ff00;
     const auto black = 0x000000;
 
-    m_default_tile.fill();
-    m_current_tile.fill(Qt::transparent);
-    m_toggled_tile.fill();
+    auto create = [&](QColor color, QColor fill=Qt::white, int border = 1) {
+        auto pixmap = QPixmap(unit, unit);
+        pixmap.fill(fill);
 
-    {
-        QPainter painter(&m_default_tile);
+        QPainter painter(&pixmap);
         painter.setPen(Qt::NoPen);
-        painter.setBrush(QColor(gray));
-        painter.drawRect(m_default_tile.rect().adjusted(1, 1, -1, -1));
-    }
+        painter.setBrush(color);
+        painter.drawRect(pixmap.rect().adjusted(border, border, -border, -border));
 
-    {
-        QPainter painter(&m_current_tile);
-        painter.setPen(Qt::NoPen);
-        painter.setBrush(QColor(red));
-        painter.drawRect(m_current_tile.rect().adjusted(2, 2, -2 , -2));
-    }
+        return pixmap;
+    };
 
-    {
-        QPainter painter(&m_toggled_tile);
-        painter.setPen(Qt::NoPen);
-        painter.setBrush(QColor(black));
-        painter.drawRect(m_toggled_tile.rect().adjusted(1, 1, -1, -1));
-    }
+    m_ant = create(QColor(red), Qt::transparent, 2);
+    m_tiles[0] = create(QColor(gray));
+    m_tiles[1] = create(QColor(black));
+    m_tiles[2] = create(QColor(green));
 }
 
 void Scene::ant()
@@ -59,24 +48,26 @@ void Scene::step()
 
 void Scene::drawBackground(QPainter* painter, const QRectF& rect)
 {
-    painter->drawTiledPixmap(rect, m_default_tile, rect.topLeft());
+    painter->drawTiledPixmap(rect, m_tiles[0], rect.topLeft());
 }
 
 void Scene::drawForeground(QPainter* painter, const QRectF& rect)
 {
     // Mark toggled tiles
+    auto color = 0;
     for (const auto& colored_tiles : m_grid.tiles()) {
         for (const auto& location : colored_tiles) {
             const auto top_left = QPointF(std::get<0>(location) * unit, std::get<1>(location) * unit);
-            painter->drawPixmap(top_left, m_toggled_tile);
+            painter->drawPixmap(top_left, m_tiles[color]);
         }
+        ++color;
     }
 
     // Mark ant locations
     for (const auto& ant : m_grid.ants()) {
         const auto location = ant.location();
         const auto top_left = QPointF(std::get<0>(location) * unit, std::get<1>(location) * unit);
-        painter->drawPixmap(top_left, m_current_tile);
+        painter->drawPixmap(top_left, m_ant);
     }
 }
 
