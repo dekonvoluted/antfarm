@@ -9,6 +9,7 @@
 #include <QToolButton>
 
 #include "scene.hpp"
+#include "tiling.hpp"
 #include "view.hpp"
 #include "window.hpp"
 
@@ -17,7 +18,7 @@ Window::Window(QWidget* parent)
 {
     this->resize(800, 600);
 
-    m_scene = new Scene();
+    m_scene = new Scene(Tiling::SQUARE, 2);
     m_view = new View(m_scene);
     this->setCentralWidget(m_view);
 

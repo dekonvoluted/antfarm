@@ -15,7 +15,7 @@ class Scene : public QGraphicsScene {
     Q_OBJECT
 
 public:
-    Scene(QObject* = nullptr);
+    Scene(Tiling, int, QObject* = nullptr);
 
 signals:
     void stepped(int);
@@ -32,5 +32,7 @@ private:
     std::map<int, QPixmap> m_tiles;
     QPixmap m_ant;
 
-    Grid m_grid;
+    Tiling m_tiling;
+    int m_colors;
+    Grid m_grid {Tiling::SQUARE, 2};
 };

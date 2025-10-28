@@ -5,10 +5,14 @@
 
 const auto unit = 10;
 
-Scene ::Scene(QObject* parent)
-    : QGraphicsScene(parent)
-    , m_grid(Tiling::SQUARE, 2)
+Scene ::Scene(Tiling tiling, int colors, QObject* parent)
+    : m_tiling(tiling)
+    , m_colors(colors),
+    QGraphicsScene(parent)
 {
+    // Create grid
+    m_grid = Grid(m_tiling, m_colors);
+
     // Select colors
     const auto gray = 0xf0f0f0;
     const auto red = 0xff0000;

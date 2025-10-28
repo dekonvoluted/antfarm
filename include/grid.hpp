@@ -11,6 +11,11 @@ class Grid {
 public:
     // Create grid with tiling type and number of colors
     Grid(const Tiling, int = 2);
+    Grid(const Grid&) = default;
+    Grid& operator=(const Grid&) = default;
+    Grid(Grid&&) = default;
+    Grid& operator=(Grid&&) = default;
+    ~Grid() = default;
 
     // Return number of directions and colors
     int directions() const;
@@ -43,8 +48,8 @@ private:
     Grid& relocate(Ant&, Location);
     Grid& reorient(Ant&, Heading);
 
-    const Tiling m_tiling;
-    const int m_colors;
+    Tiling m_tiling;
+    int m_colors;
     std::vector<std::unordered_set<Location, LocationHash>> m_tiles;
     std::vector<Ant> m_ants {};
 
