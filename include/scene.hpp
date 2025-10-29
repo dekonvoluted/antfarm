@@ -34,5 +34,5 @@ private:
 
     Tiling m_tiling;
     int m_colors;
-    Grid m_grid {Tiling::SQUARE, 2};
+    Grid m_grid { Tiling::SQUARE, 2 };
 };

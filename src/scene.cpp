@@ -3,12 +3,13 @@
 
 #include "scene.hpp"
 
-const auto unit = 10;
+// Unit must be divisible by 2, 3, 4, 6 (ideally)
+const auto unit = 12;
 
 Scene ::Scene(Tiling tiling, int colors, QObject* parent)
     : m_tiling(tiling)
-    , m_colors(colors),
-    QGraphicsScene(parent)
+    , m_colors(colors)
+    , QGraphicsScene(parent)
 {
     // Create grid
     m_grid = Grid(m_tiling, m_colors);
@@ -19,7 +20,7 @@ Scene ::Scene(Tiling tiling, int colors, QObject* parent)
     const auto green = 0x00ff00;
     const auto black = 0x000000;
 
-    auto create = [&](QColor color, QColor fill=Qt::white, int border = 1) {
+    auto create = [&](QColor color, QColor fill = Qt::white, int border = 1) {
         auto pixmap = QPixmap(unit, unit);
         pixmap.fill(fill);
 

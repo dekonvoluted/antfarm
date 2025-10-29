@@ -1,3 +1,4 @@
+#include <map>
 #include <stdexcept>
 
 #include "ant.hpp"
@@ -47,15 +48,19 @@ Ant& Ant::update()
 {
     // Rules for this automaton
     // Toggle color, turn, advance
+    const auto color = m_grid.color(m_location);
+
     m_grid.toggle(m_location);
 
-    const auto color = m_grid.color(m_location);
-    if (color == 0) {
-        turn(-1);
-
-    } else if (color == 1) {
-        turn(1);
-    }
+    // Set up turns from -n, through 0, to +n for available directions
+    const std::map<int, std::map<int, int>> colorturns = {
+        { 2, { { 0, -1 }, { 1, 1 } } },
+        { 3, { { 0, -1 }, { 1, 0 }, { 2, 1 } } },
+        { 4, { { 0, -2 }, { 1, -1 }, { 2, 1 }, { 3, 2 } } },
+        { 5, { { 0, -2 }, { 1, -1 }, { 3, 0 }, { 4, 1 }, { 5, 2 } } }
+    };
+    const auto turns = colorturns.at(m_grid.colors());
+    turn(turns.at(color));
 
     advance(1);
 

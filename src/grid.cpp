@@ -11,8 +11,12 @@ Grid::Grid(const Tiling tiling, int colors)
     , m_tiles(colors)
 {
     // Cannot have fewer than two colors
+    // Cannot have as many or more colors than directions
     if (m_colors < 2) {
         throw std::runtime_error("Grid must have at least two colors");
+    }
+    if (m_colors >= directions()) {
+        throw std::runtime_error("Grid must have fewer colors than directions");
     }
 }
 

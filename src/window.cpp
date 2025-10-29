@@ -18,7 +18,7 @@ Window::Window(QWidget* parent)
 {
     this->resize(800, 600);
 
-    m_scene = new Scene(Tiling::SQUARE, 2);
+    m_scene = new Scene(Tiling::SQUARE, 3);
     m_view = new View(m_scene);
     this->setCentralWidget(m_view);
 
@@ -72,8 +72,8 @@ Window::Window(QWidget* parent)
 
     auto* stepButton = new QPushButton("Step");
     connect(playButton, &QPushButton::toggled, [stepButton](bool toggled) {
-            stepButton->setEnabled(not toggled);
-            });
+        stepButton->setEnabled(not toggled);
+    });
     connect(stepButton, &QPushButton::clicked, this, &Window::update);
     m_toolbar->addWidget(stepButton);
 
