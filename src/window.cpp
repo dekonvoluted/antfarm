@@ -18,7 +18,7 @@ Window::Window(QWidget* parent)
 {
     this->resize(800, 600);
 
-    m_scene = new Scene(Tiling::SQUARE, 3);
+    m_scene = new Scene(Tiling::HEXAGON, 5);
     m_view = new View(m_scene);
     this->setCentralWidget(m_view);
 
